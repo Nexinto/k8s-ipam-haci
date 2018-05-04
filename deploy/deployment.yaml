@@ -1,0 +1,53 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-ipam-haci
+  labels:
+    run: k8s-ipam-haci
+  namespace: kube-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-ipam-haci
+  template:
+    metadata:
+      labels:
+        app: k8s-ipam-haci
+    spec:
+      serviceAccountName: k8s-ipam-haci
+      containers:
+      - name: k8s-ipam-haci
+        image: nexinto/k8s-ipam-haci
+        env:
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-ipam-haci
+              key: LOG_LEVEL
+        - name: HACI_URL
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-ipam-haci
+              key: HACI_URL
+        - name: HACI_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: k8s-ipam-haci
+              key: HACI_USERNAME
+        - name: HACI_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: k8s-ipam-haci
+              key: HACI_PASSWORD
+        - name: HACI_ROOT
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-ipam-haci
+              key: HACI_ROOT
+        - name: HACI_NETWORK
+          valueFrom:
+            configMapKeyRef:
+              name: k8s-ipam-haci
+              key: HACI_NETWORK
