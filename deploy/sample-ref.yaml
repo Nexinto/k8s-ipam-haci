@@ -4,4 +4,4 @@ metadata:
   name: myip-ref
 spec:
   comment: This is my great service.
-  ref: ConfigMap.default.myip
+  ref: kubernetes.default.myip
